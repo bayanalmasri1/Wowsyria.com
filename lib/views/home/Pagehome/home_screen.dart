@@ -180,8 +180,8 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: Colors.white,
               child: Image.asset(
                 imagePath,
-                width: 150,
-                height: 150,
+                width: 130,
+                height: 130,
                 fit: BoxFit.cover,
               ),
             ),

@@ -30,6 +30,8 @@ class _AddListingScreenState extends State<AddListingScreen> {
   final bedroomsController = TextEditingController();
   final bathroomsController = TextEditingController();
   final areaController = TextEditingController();
+  
+  bool isSubmitting = false;
 
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(
@@ -232,61 +234,69 @@ class _AddListingScreenState extends State<AddListingScreen> {
       ),
     );
   }
+Widget _buildConfirmButton() {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    color: Colors.white,
+    child: ElevatedButton(
+      onPressed: isSubmitting
+          ? null // تعطيل الزر أثناء التحميل
+          : () async {
+              if (_formKey.currentState!.validate()) {
+                setState(() {
+                  isSubmitting = true;
+                });
 
-  Widget _buildConfirmButton() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      color: Colors.white,
-      child: ElevatedButton(
-        onPressed: () async {
-          if (_formKey.currentState!.validate()) {
-            String? imageBase64;
-            if (_image != null) {
-              final bytes = await _image!.readAsBytes();
-              imageBase64 = base64Encode(bytes);
-            }
-            await ListingService.submitListing(
-              context: context,
-              category: selectedCategory,
-              title: titleController.text,
-              description: descriptionController.text,
-              location: locationController.text,
-              price: priceController.text,
-              saleType: selectedSaleType,
-              brand: brandController.text,
-              model: modelController.text,
-              year: int.tryParse(yearController.text),
-              imageFile: _image,
-              area: areaController.text,
-              bathrooms: int.tryParse(bathroomsController.text),
-              bedrooms: int.tryParse(bedroomsController.text),
-            );
+                try {
+                  String? imageBase64;
+                  if (_image != null) {
+                    final bytes = await _image!.readAsBytes();
+                    imageBase64 = base64Encode(bytes);
+                  }
 
-            setState(() {
-              titleController.clear();
-              descriptionController.clear();
-              locationController.clear();
-              priceController.clear();
-              brandController.clear();
-              modelController.clear();
-              yearController.clear();
-              areaController.clear();
-              bedroomsController.clear();
-              bathroomsController.clear();
-              _image = null;
-            });
-          }
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.teal,
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-        child: Text(
-          'confirm'.tr + ' ${selectedCategory.tr}',
-          style: const TextStyle(fontSize: 18, color: Colors.white),
-        ),
+                  await ListingService.submitListing(
+                    context: context,
+                    category: selectedCategory,
+                    title: titleController.text,
+                    description: descriptionController.text,
+                    location: locationController.text,
+                    price: priceController.text,
+                    saleType: selectedSaleType,
+                    brand: brandController.text,
+                    model: modelController.text,
+                    year: int.tryParse(yearController.text),
+                    imageFile: _image,
+                    area: areaController.text,
+                    bathrooms: int.tryParse(bathroomsController.text),
+                    bedrooms: int.tryParse(bedroomsController.text),
+                  );
+
+                  // إعادة تعيين النموذج بعد الإرسال الناجح
+                  _formKey.currentState!.reset();
+                  setState(() {
+                    _image = null;
+                  });
+                } finally {
+                  setState(() {
+                    isSubmitting = false;
+                  });
+                }
+              }
+            },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.teal,
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
-    );
-  }
+      child: isSubmitting
+          ? CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            )
+          : Text(
+              'confirm'.tr + ' ${selectedCategory.tr}',
+              style: const TextStyle(fontSize: 18, color: Colors.white),
+            ),
+    ),
+  );
+}
 }

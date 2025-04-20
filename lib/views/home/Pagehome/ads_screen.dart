@@ -94,7 +94,7 @@ class _SuperAdsPageState extends State<SuperAdsPage> {
         ],
       ),
     );
-  }
+  } 
 
   Widget _buildAdList() {
     switch (selectedType) {

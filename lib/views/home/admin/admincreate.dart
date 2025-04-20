@@ -56,7 +56,7 @@ class CreateAdView extends StatelessWidget {
                         await controller.createAd();
                         controller.isLoading.value = false;
                         Get.snackbar('Success', 'Ad created successfully',
-                            backgroundColor: Colors.green,
+                            backgroundColor: Colors.teal,
                             colorText: Colors.white);
                         controller.fetchSuperAds(); // لإعادة تحميل الصفحة
                         Get.back(); // للرجوع إلى الصفحة الرئيسية
