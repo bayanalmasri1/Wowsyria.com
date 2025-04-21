@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:wowsyria_com/controller/locale_controller.dart';
 
-
 // ignore: use_key_in_widget_constructors
 class CustomDrawer extends StatelessWidget {
   @override
@@ -41,35 +40,33 @@ class CustomDrawer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
-             ElevatedButton(
-  onPressed: () async {
-    bool loggedIn = await isUserLoggedIn();
-    if (loggedIn) {
-      Get.snackbar(
-        "تم تسجيل الدخول", 
-        "لقد قمت بتسجيل الدخول مسبقًا.",
-        backgroundColor: Colors.green[100],
-        colorText: Colors.black,
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } else {
-      Get.toNamed('/login');
-    }
-  },
-  style: ElevatedButton.styleFrom(
-    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
-    backgroundColor: Colors.grey[200],
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(30),
-    ),
-  ),
-  child: Text("login".tr,
-      style: TextStyle(fontSize: 18, color: Colors.black)),
-),
-
+              ElevatedButton(
+                onPressed: () async {
+                  bool loggedIn = await isUserLoggedIn();
+                  if (loggedIn) {
+                    Get.snackbar(
+                      "you ara logged In",
+                      "You are already logged In",
+                      backgroundColor: Colors.green[100],
+                      colorText: Colors.black,
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
+                  } else {
+                    Get.toNamed('/login');
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+                  backgroundColor: Colors.grey[200],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: Text("login".tr,
+                    style: TextStyle(fontSize: 18, color: Colors.black)),
+              ),
               const SizedBox(height: 10),
-
               ElevatedButton(
                 onPressed: () => Get.toNamed('/register'),
                 style: ElevatedButton.styleFrom(
@@ -87,7 +84,7 @@ class CustomDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Divider(thickness: 1, color: Colors.grey[300]),
-       /*   ListTile(
+          /*   ListTile(
             leading: Icon(Icons.language),
             title: Text(localeController.initialLang?.languageCode == 'ar'
                 ? "عربي"
