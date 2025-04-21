@@ -35,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         _usernameController.text = data['username'];
         _email = data['email'] ?? '';
-        _phone = data['phone'] ?? '';
+        _phone = data['phone'] ;
       });
     } else {
       print('Failed to load profile');
@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Profile') ,backgroundColor: Colors.teal,),
+      appBar:AppBar(title: Center(child: Text('Profile')),backgroundColor: Colors.teal,),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
